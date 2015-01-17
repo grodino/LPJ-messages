@@ -1,0 +1,242 @@
+@charset "utf-8";
+
+@media screen and (min-width:1000px){
+header  {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	background-color: #086fa2;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	
+}
+body , html{
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	width: 100%;
+	height: 100%;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+}
+header #Titre {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	text-align: center;
+	vertical-align: middle;
+	color: #FFFFFF;
+	text-transform: uppercase;
+	font-size: 300%;
+}
+#mainNav {
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	display: block;
+}
+#mainNav ul {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	list-style-type: none;
+}
+#mainNav a {
+	width: 25%;
+	display: block;
+	float: left;
+	text-align: center;
+	background-color: #DDDDDD;
+	color: #000000;
+	text-transform: uppercase;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+#mainNav a:hover, #mainNav a:active, #mainNav a:focus, #mainNav a.thispage {
+	background-color: #086FA2;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+a {
+	text-decoration: none;
+}
+a :visited, a:active  {
+	text-decoration: none;
+	color: #000000;
+}
+
+footer {
+	text-align: center;
+	color: #7C7C7C;
+}
+#wrapper {
+	width: 100%;
+
+}
+#wrapper #logoContainer {
+	display: block;
+	height: 100%;
+	width: 35%;
+	float: left;
+	text-align: center;
+}
+#wrapper #descriptionContainer {
+	text-align: justify;
+	width: 64%;
+	border-left: 3px solid #086FA2;
+	display: block;
+	height: 100%;
+	float: left;
+}
+#wrapper #descriptionContainer #titre_description {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+#wrapper #logoContainer img {
+	vertical-align: middle;
+	width: 293px;
+	height: 293px;
+}
+body main {
+	width: 100%;
+	position: relative;
+	top: 2em;
+	height: 40em;
+}
+#wrapper #descriptionContainer #titre_description , #wrapper #descriptionContainer p{
+	padding-top: 1em;
+	padding-right: 1em;
+	padding-bottom: 1em;
+	padding-left: 1em;
+}
+}
+
+@media screen and (max-width:1000px){
+#wrapper #logoContainer {
+	display: block;
+	text-align: center;
+	position: relative;
+	top: 2em;
+}
+#wrapper #logoContainer img {
+	width: 293px;
+	height: 293px;
+}
+#wrapper #descriptionContainer {
+	text-align: justify;
+	display: block;
+	float: left;
+	position: relative;
+	top: 2em;
+	padding: 1em;
+}
+header  {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	background-color: #086fa2;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	
+}
+body , html{
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	width: 100%;
+	height: 100%;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+}
+header #Titre {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	text-align: center;
+	vertical-align: middle;
+	color: #FFFFFF;
+	text-transform: uppercase;
+	font-size: 300%;
+}
+#mainNav {
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	display: block;
+}
+#mainNav ul {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	list-style-type: none;
+}
+#mainNav a {
+	width: 25%;
+	display: block;
+	float: left;
+	text-align: center;
+	background-color: #DDDDDD;
+	color: #000000;
+	text-transform: uppercase;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+#mainNav a:hover, #mainNav a:active, #mainNav a:focus, #mainNav a.thispage {
+	background-color: #086FA2;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+a {
+	text-decoration: none;
+}
+a :visited, a:active  {
+	text-decoration: none;
+	color: #000000;
+}
+footer {
+	text-align: center;
+	color: #7C7C7C;
+	position: relative;
+	top: 2em;
+}
+}
