@@ -4,6 +4,13 @@ include_once("Bdd.php");
 include_once('Client.php');
 include_once("AntiSpam.php");
 
+
+$ecrivain = new Client();
+$antiSpam = new AntiSpam($ecrivain->getCookie(), $ecrivain->getIp());
+
+var_dump($antiSpam->verifierCookie());
+var_dump($ecrivain->getCookie());
+
 // TODO :
 // Anti spam
 // -> Vérifier le cookie puis si pas en bdd mais sur le client, mettre une erreur (tentative de modif de cookie)

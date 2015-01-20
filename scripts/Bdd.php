@@ -16,14 +16,27 @@ class Bdd{
 		}
 	}
 
-	// retourne un tableau avec tous les résultats
-	public function rechercher(string $demande, array $arg) {
-		$req = $this->bdd->prepare($demande);
-		$req->execute($arg);
+	// Retourne true si le cookie existe
+	function existCookie($cookie){
+		$req = $this->bdd->prepare("SELECT* FROM messages WHERE cookie = ?");
+		$req->execute(array($cookie));
 
-		$this->resultats = $req->fetchAll();
+		$resultat = $req->fetchAll();
 
-		return $this->resultats;
+		try {
+			if (count($resultat) > 2) {
+				throw new Exception('Erreur lors de l\' enregistrement du message, deux cookies ont la même valeur');
+			} else if ($resultat == null) {
+				$reponse = false;
+			} else {
+				$reponse = true;
+			}
+		} catch (Exception $e){
+			echo 'Un problème est survenu : ', $e->getMessage();
+			exit();
+		}
+
+		return $reponse;
 	}
 
 }

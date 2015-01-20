@@ -14,4 +14,10 @@ class AntiSpam{
 	public function nbModifRestantes() {
 		$demande = "SELECT nb_modif FROM message_lpj WHERE cookie = ?";
 	}
+
+	public function verifierCookie() {
+		$requete = new Bdd();
+
+		return $requete->existCookie($this->cookie);
+	}
 }
