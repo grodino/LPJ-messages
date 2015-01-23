@@ -6,12 +6,12 @@ include_once("AntiSpam.php");
 
 
 $ecrivain = new Client();
-$antiSpam = new AntiSpam($ecrivain->getCookie(), $ecrivain->getIp());
 
-var_dump($antiSpam->verifierCookie());
-var_dump($ecrivain->getCookie());
 
 // TODO :
+// Client
+// -> Enregister le cookie dans la bdd en passant par anti-spam
+//
 // Anti spam
 // -> Vérifier le cookie puis si pas en bdd mais sur le client, mettre une erreur (tentative de modif de cookie)
 // -> Si cookie ni bdd ni client vérifier ip et si ip en bdd remettre un cookie (supprimé par user?) et modifs - 1

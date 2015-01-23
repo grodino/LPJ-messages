@@ -1,17 +1,17 @@
 <?php
 
 class Client{
-  	private $cookie;
-	private $adresseIp;
-	private $message;
-	private $antiSpam;
+  	protected $cookie;
+	protected $adresseIp;
+	protected $message;
+	protected $antiSpam;
 
 	// Constructeur TODO : tout
 	function __construct(){
 		$this->getMessageClient();
 		$this->getIpClient();
 		$this->getCookieClient();
-		$this->antiSpam = new AntiSpam($this->cookie, $this->adresseIp);
+		$this->antiSpam = new AntiSpam();
 	}
 
 	// Retrouve l'ip du client et l'inscrit dans l'objet /!\ A MODIFIER VOIR INTERIEUR
@@ -22,25 +22,23 @@ class Client{
 	// Retrouve le cookie présent sur le client ou en créé un et l'enregistre dans l'instance
 	private function getCookieClient() {
 		if (isset($_COOKIE['modification'])) {
-			$this->cookie = $_COOKIE['modification'];
+			$this->cookie = htmlspecialchars($_COOKIE['modification']);
 		} else {
 			$this->cookie = $this->setCookieClient();
 		}
 	}
 
-	// Mets un cookie de 2 mois et l'enregistre dans l'instance
-	private function setCookieClient() {
-		$this->cookie = sha1(uniqid('', true));
-		setcookie('modification', $this->cookie, time() + 60*60*24*31*2, null, null, false, true);
-	}
-
 	// Récupère le message (d'amour :D)
 	private function getMessageClient() {
 		try {
-			if (isset($_POST['message']) && $_POST['message'] != '') {
+			if (isset($_POST['message']) && $_POST['message'] != '' && strlen($_POST['message']) <= 10100) {
 				$this->message = htmlspecialchars($_POST['message']);
 			} else {
-				throw new Exception('Attention ! Votre message ne doit pas être vide !');
+				if (strlen($_POST['message']) >= 10100) {
+					throw new Exception('Attention ! Votre message est trop long !');
+				} else {
+					throw new Exception('Attention ! Votre message ne doit pas être vide !');
+				}
 			}
 		} catch (Exception $e) {
 			echo 'Un problème est survenu : ', $e->getMessage();
@@ -54,6 +52,12 @@ class Client{
 		echo 'Cookie : ', $this->cookie, '<br />';
 		echo 'Adresse Ip : ', $this->adresseIp, '<br />';
 		echo 'Message : ', nl2br($this->message), '<br />';
+	}
+
+	// Mets un cookie de 2 mois et l'enregistre dans l'instance
+	protected function setCookieClient() {
+		$this->cookie = sha1(uniqid('', true));
+		setcookie('modification', $this->cookie, time() + 60*60*24*31*2, null, null, false, true);
 	}
 
 	/*

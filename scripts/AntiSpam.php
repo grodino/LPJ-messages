@@ -1,23 +1,66 @@
 <?php
 
-class AntiSpam{
+class AntiSpam extends Client{
   	private $nbModifRestantes;
-	private $cookie;
-	private $adresseIp;
+	private $nbModifs;
+	private $bdd;
 
-	function AntiSpam($cookie, $adresseIp){
-		$this->cookie = $cookie;
-		$this->adresseIp = $adresseIp;
+	function __construct(){
+		$this->bdd = new Bdd();
+		$this->nbModifRestantes();
+
+		try {
+			if ($this->verifierMessages()) {
+				throw new Exception('Votre message est identique à celui de quelqu\'un d\'autre, soyez original ! ;)');
+			}
+		} catch (Exception $e) {
+			die('Erreur : ' . $e->getMessage());
+		} // On vérifie si ce n'est pas le même message que quelqu'un d'autre
+
 	}
 
-	// Retourne le nombre de modification restantes (de 3 à 0) TODO : refaire
-	public function nbModifRestantes() {
-		$demande = "SELECT nb_modif FROM message_lpj WHERE cookie = ?";
+	// Enregistre le nombre de modification restantes et le nombre de modifications effectuées et les crées si c'est un nouvel écrivain
+	private function nbModifRestantes() {
+		// On vérifie si le cookie que l'on a est dans la base
+		if ($this->bdd->existCookie($this->cookie)) { // Si oui on récupère le nombre de modifications qui ont été faites
+			$this->nbModifs = $this->bdd->getNbModifsCookie();
+			$this->nbModifRestantes = 3 - $this->nbModifs;
+
+		} else if ($this->bdd->existIp($this->adresseIp)) { // S'il n'existe pas de cookie (supprimé par l'utilisateur par exemple) on vérifie s'il existe l'ip et si ip on remet un cookie
+			$this->nbModifs = $this->bdd->getNbModifsIp($ip);
+			$this->nbModifRestantes = 3 - $this->nbModifs;
+
+			$this->setCookieClient();
+		} else {
+			$this->nbModifs = 0;
+			$this->nbModifRestantes = 3 - $this->nbModifs;
+
+			$this->setCookieClient();
+		}
 	}
 
-	public function verifierCookie() {
-		$requete = new Bdd();
+	// Vérifie s'il n'y a pas deux même messages
+	private function verifierMessages() {
+		return $this->bdd->verifierMessage();
+	}
 
-		return $requete->existCookie($this->cookie);
+	// Persiste tout en base de donnée si tout c'est déroulé correctement
+	public function persistAll() {
+
+	}
+
+
+	/*
+	 * GETTERS
+	*/
+
+	// Retoure le nombre de modification restantes
+	public function getNbModifRestantes() {
+		return $this->nbModifRestantes;
+	}
+
+	// Retourne le nombre de modifications
+	public function getNbModifs() {
+		return $this->nbModifs;
 	}
 }
