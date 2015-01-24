@@ -1,16 +1,24 @@
 <?php
 
-class AntiSpam extends Client{
+class AntiSpam{
   	private $nbModifRestantes;
 	private $nbModifs;
+	private $existCookie;
 	private $bdd;
+	private $cookie;
+	private $adresseIp;
+	private $message;
 
-	function __construct(){
+	function __construct($cookie, $message, $adresseIp){
 		$this->bdd = new Bdd();
+		$this->cookie = $cookie;
+		$this->message = $message;
+		$this->adresseIp = $adresseIp;
+
 		$this->nbModifRestantes();
 
 		try {
-			if ($this->verifierMessages()) {
+			if ($this->bdd->verifierMessage($this->message)) {
 				throw new Exception('Votre message est identique à celui de quelqu\'un d\'autre, soyez original ! ;)');
 			}
 		} catch (Exception $e) {
@@ -23,31 +31,48 @@ class AntiSpam extends Client{
 	private function nbModifRestantes() {
 		// On vérifie si le cookie que l'on a est dans la base
 		if ($this->bdd->existCookie($this->cookie)) { // Si oui on récupère le nombre de modifications qui ont été faites
-			$this->nbModifs = $this->bdd->getNbModifsCookie();
+			$this->nbModifs = $this->bdd->getNbModifsCookie($this->cookie);
 			$this->nbModifRestantes = 3 - $this->nbModifs;
 
 		} else if ($this->bdd->existIp($this->adresseIp)) { // S'il n'existe pas de cookie (supprimé par l'utilisateur par exemple) on vérifie s'il existe l'ip et si ip on remet un cookie
-			$this->nbModifs = $this->bdd->getNbModifsIp($ip);
+			$this->nbModifs = $this->bdd->getNbModifsIp($this->adresseIp);
 			$this->nbModifRestantes = 3 - $this->nbModifs;
 
-			$this->setCookieClient();
 		} else {
 			$this->nbModifs = 0;
 			$this->nbModifRestantes = 3 - $this->nbModifs;
 
-			$this->setCookieClient();
 		}
-	}
 
-	// Vérifie s'il n'y a pas deux même messages
-	private function verifierMessages() {
-		return $this->bdd->verifierMessage();
 	}
 
 	// Persiste tout en base de donnée si tout c'est déroulé correctement
 	public function persistAll() {
+		try {
+			if ($this->nbModifRestantes > 0) {
+				if ($this->nbModifs == 0) {
+					$this->bdd->createMessage($this->adresseIp, $this->cookie, $this->message);
+				} else {
+					if ($this->bdd->existCookie($this->cookie)) {
+						$this->bdd->updateIp($this->adresseIp, $this->cookie);
+					} else {
+						$this->bdd->updateCookie($this->cookie, $this->adresseIp);
+					}
+
+					$this->bdd->updateMessage($this->message, $this->cookie);
+				}
+
+				$this->bdd->updateNbModifs($this->nbModifs + 1, $this->cookie);
+			} else {
+				throw new ErreurInfo('Vous ne pouvez pas modifier votre message plus de trois fois !');
+			}
+		} catch (ErreurInfo $e) {
+			$e->declarerException();
+		}
 
 	}
+
+
 
 
 	/*

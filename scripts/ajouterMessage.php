@@ -1,12 +1,15 @@
 <?php
 
+include_once("ErreurInfo.php");
 include_once("Bdd.php");
 include_once('Client.php');
 include_once("AntiSpam.php");
 
+$ecrivain = new Client;
+$ecrivain->persisterClient();
 
-$ecrivain = new Client();
-
+$info = new ErreurInfo("Votre message a bien été enregistré !");
+$info->declarerException();
 
 // TODO :
 // Client

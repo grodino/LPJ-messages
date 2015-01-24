@@ -1,3 +1,7 @@
+<?php
+	include_once('scripts/ErreurInfo.php');
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -21,6 +25,11 @@
 </nav>
 
 <main id="wrapper">
+	<?php
+		$info = new ErreurInfo();
+		$info->afficherException();
+	?>
+
 	<form id="messageForm" name="messageForm" method="post" action="scripts/ajouterMessage.php" >
 	  <textarea name="message" wrap="hard" id="message" placeholder="Ecrivez votre plus beau message ! (max 10 000 caractères)" maxlength="10000" ></textarea>
 	  <input type="submit" value="Envoyez votre message !">

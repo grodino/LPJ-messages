@@ -19,13 +19,13 @@ class Bdd{
 
 	// Retourne true si le cookie existe
 	public function existCookie($cookie){
-		$req = $this->bdd->prepare("SELECT* FROM messages WHERE cookie = ?");
+		$req = $this->bdd->prepare('SELECT ip FROM messages WHERE cookie = ?');
 		$req->execute(array($cookie));
 
 		$resultat = $req->fetchAll();
 
 		try {
-			if (count($resultat) >= 2) {
+			if (count($resultat) > 2) {
 				throw new Exception('Deux cookies ont la même valeur, veuillez me contacter');
 			} else if ($resultat == null) {
 				$reponse = false;
@@ -33,8 +33,7 @@ class Bdd{
 				$reponse = true;
 			}
 		} catch (Exception $e){
-			echo 'Un problème est survenu : ', $e->getMessage();
-			exit();
+			die('Erreur : ' . $e->getMessage());
 		}
 
 		return $reponse;
@@ -61,9 +60,11 @@ class Bdd{
 		$req = $this->bdd->prepare("SELECT nb_modifications FROM messages WHERE cookie = ?");
 		$req->execute(array($cookie));
 
-		$this->resultats = $req->fetchAll();
+		while ($donnee = $req->fetch()) {
+			$this->reponse = $donnee['nb_modifications'];
+		}
 
-		return $this->resultats;
+		return (int)$this->reponse;
 	}
 
 	// Retourne le nombre de modifications restantes sur l'ip
@@ -71,20 +72,16 @@ class Bdd{
 		$req = $this->bdd->prepare("SELECT nb_modifications FROM messages WHERE ip = ?");
 		$req->execute(array($ip));
 
-		$this->resultats = $req->fetchAll();
+		while ($donnee = $req->fetch()) {
+			$this->reponse = $donnee['nb_modifications'];
+		}
 
-		return $this->resultats;
-	}
-
-	// Met à jours la valeur du nombre de modifications
-	public function updateNbModifs($nouvelleValeur) {
-		$req = $this->bdd->prepare("UPDATE messages SET nb_modifications = ?");
-		$req->execute(array($nouvelleValeur));
+		return (int)$this->reponse;
 	}
 
 	// Retourne true s'il le message en param existe déja
 	public function verifierMessage($message) {
-		$req = $this->bdd->prepare("SELECT message FROM messages WHERE message = ?");
+		$req = $this->bdd->prepare("SELECT* FROM messages WHERE message = ?");
 		$req->execute(array($message));
 
 		$this->resultats = $req->fetchAll();
@@ -97,6 +94,37 @@ class Bdd{
 
 		return $this->reponse;
 	}
+
+	// Met à jours la valeur du nombre de modifications
+	public function updateNbModifs($nouvelleValeur, $cookie) {
+		$req = $this->bdd->prepare("UPDATE messages SET nb_modifications = ? WHERE cookie = ?");
+		$req->execute(array($nouvelleValeur, $cookie));
+	}
+
+	// Met à jour l'adresse ip
+	public function updateIp($nouvelleIp, $cookie) {
+		$req = $this->bdd->prepare("UPDATE messages SET ip = ? WHERE cookie = ?");
+		$req->execute(array($nouvelleIp, $cookie));
+	}
+
+	// Met à jour le cookie
+	public function updateCookie($nouveauCookie, $ip) {
+		$req = $this->bdd->prepare("UPDATE messages SET cookie = ? WHERE ip = ?");
+		$req->execute(array($nouveauCookie, $ip));
+	}
+
+	// Met à jour le message
+	public function updateMessage($nouveauMessage, $cookie) {
+		$req = $this->bdd->prepare("UPDATE messages SET message = ? WHERE cookie = ?");
+		$req->execute(array($nouveauMessage, $cookie));
+	}
+
+	// Créé un nouveau message (avec message, ip et cookie)
+	public function createMessage($ip, $cookie, $message) {
+		$req = $this->bdd->prepare("INSERT INTO messages(message, ip, cookie) VALUES(?, ?, ?)");
+		$req->execute(array($message, $ip, $cookie));
+	}
+
 }
 
 

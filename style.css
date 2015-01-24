@@ -7,7 +7,7 @@ header  {
 	background-color: #086fa2;
 	padding-top: 1em;
 	padding-bottom: 1em;
-	
+
 }
 body , html{
 	margin-top: 0px;
@@ -124,4 +124,12 @@ a :visited, a:active  {
 body footer {
 	text-align: center;
 	color: #7C7C7C;
+}
+
+.erreur {
+	background-color: #EE7800;
+	color: white;
+	text-transform: uppercase;
+	margin: 1em;
+	padding: 1.5em;
 }
