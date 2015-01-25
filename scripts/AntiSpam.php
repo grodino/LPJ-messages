@@ -22,7 +22,8 @@ class AntiSpam{
 				throw new Exception('Votre message est identique à celui de quelqu\'un d\'autre, soyez original ! ;)');
 			}
 		} catch (Exception $e) {
-			die('Erreur : ' . $e->getMessage());
+			$info = new ErreurInfo($e->getMessage());
+			$info->declarerException();
 		} // On vérifie si ce n'est pas le même message que quelqu'un d'autre
 
 	}
@@ -64,10 +65,11 @@ class AntiSpam{
 
 				$this->bdd->updateNbModifs($this->nbModifs + 1, $this->cookie);
 			} else {
-				throw new ErreurInfo('Vous ne pouvez pas modifier votre message plus de trois fois !');
+				throw new Exception('Vous ne pouvez pas modifier votre message plus de trois fois !');
 			}
-		} catch (ErreurInfo $e) {
-			$e->declarerException();
+		} catch (Exception $e) {
+			$info = new ErreurInfo($e->getMessage());
+			$info->declarerException();
 		}
 
 	}

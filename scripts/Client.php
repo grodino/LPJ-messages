@@ -41,7 +41,8 @@ class Client{
 				}
 			}
 		} catch (Exception $e) {
-			die('Erreur : ' . $e->getMessage());
+			$info = new ErreurInfo($e->getMessage());
+			$info->declarerException();
 		}
 
 	}
@@ -62,11 +63,6 @@ class Client{
 	// Pour enregistrer les modifs si pas d'erreur
 	public function persisterClient() {
 		$this->antiSpam->persistAll();
-	}
-
-	// Gère les exceptions plus joliment
-	public function afficherException ($message) {
-		header('Location: ../index.php?erreur='.htmlspecialchars($message));
 	}
 
 

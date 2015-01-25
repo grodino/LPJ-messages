@@ -26,8 +26,9 @@
 
 <main id="wrapper">
 	<?php
-		$info = new ErreurInfo();
-		$info->afficherException();
+			$info = new ErreurInfo('');
+			$info->afficherException();
+			$info->afficherValidation();
 	?>
 
 	<form id="messageForm" name="messageForm" method="post" action="scripts/ajouterMessage.php" >

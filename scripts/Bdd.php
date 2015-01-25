@@ -32,8 +32,9 @@ class Bdd{
 			} else {
 				$reponse = true;
 			}
-		} catch (Exception $e){
-			die('Erreur : ' . $e->getMessage());
+		} catch (Exception $e) {
+			$info = new ErreurInfo($e->getMessage());
+			$info->declarerException();
 		}
 
 		return $reponse;

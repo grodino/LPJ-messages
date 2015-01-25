@@ -8,8 +8,8 @@ include_once("AntiSpam.php");
 $ecrivain = new Client;
 $ecrivain->persisterClient();
 
-$info = new ErreurInfo("Votre message a bien été enregistré !");
-$info->declarerException();
+$info = new ErreurInfo("Votre message a bien été enregistré ! Il vous reste ".$ecrivain->antiSpam->getNbModifRestantes()." modifications.");
+$info->declarerValidation();
 
 // TODO :
 // Client

@@ -133,3 +133,11 @@ body footer {
 	margin: 1em;
 	padding: 1.5em;
 }
+
+.info {
+	background-color: #1EDB35;
+	color: white;
+	text-transform: uppercase;
+	margin: 1em;
+	padding: 1.5em;
+}
