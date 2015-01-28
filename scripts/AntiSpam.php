@@ -6,14 +6,12 @@ class AntiSpam{
 	private $existCookie;
 	private $bdd;
 	private $cookie;
-	private $adresseIp;
 	private $message;
 
-	function __construct($cookie, $message, $adresseIp){
+	function __construct($cookie, $message){
 		$this->bdd = new Bdd();
 		$this->cookie = $cookie;
 		$this->message = $message;
-		$this->adresseIp = $adresseIp;
 
 		$this->nbModifRestantes();
 
@@ -35,10 +33,6 @@ class AntiSpam{
 			$this->nbModifs = $this->bdd->getNbModifsCookie($this->cookie);
 			$this->nbModifRestantes = 3 - $this->nbModifs;
 
-		} else if ($this->bdd->existIp($this->adresseIp)) { // S'il n'existe pas de cookie (supprimé par l'utilisateur par exemple) on vérifie s'il existe l'ip et si ip on remet un cookie
-			$this->nbModifs = $this->bdd->getNbModifsIp($this->adresseIp);
-			$this->nbModifRestantes = 3 - $this->nbModifs;
-
 		} else {
 			$this->nbModifs = 0;
 			$this->nbModifRestantes = 3 - $this->nbModifs;
@@ -52,14 +46,8 @@ class AntiSpam{
 		try {
 			if ($this->nbModifRestantes > 0) {
 				if ($this->nbModifs == 0) {
-					$this->bdd->createMessage($this->adresseIp, $this->cookie, $this->message);
+					$this->bdd->createMessage($this->cookie, $this->message);
 				} else {
-					if ($this->bdd->existCookie($this->cookie)) {
-						$this->bdd->updateIp($this->adresseIp, $this->cookie);
-					} else {
-						$this->bdd->updateCookie($this->cookie, $this->adresseIp);
-					}
-
 					$this->bdd->updateMessage($this->message, $this->cookie);
 				}
 
